@@ -54,9 +54,9 @@ def get_guessed_word(secret_word, letters_guessed):
     guessed_word = ''
     for letter in secret_word:
         if letter in letters_guessed:
-            guessed_word += letter
+            guessed_word += f'{letter} '
         else:
-            guessed_word += '_'
+            guessed_word += '_ '
     return guessed_word
 
 
@@ -88,29 +88,38 @@ def spaceman(secret_word):
     """
 
     # TODO: show the player information about the game according to the project spec
-
-    # Ask the player to guess one letter per round and check that it is only one letter
+    print('Welcome to Spaceman\n\nSpaceman is running out of air!\nHe needs to login to his spaceship computer to fix the air flow but he can\'t remember his password, and he doesn\'t use a password manager!\nQuick, help him remember his password before he runs out of guesses.')
     letters_guessed = ''
+    incorrect_guesses_left = 7
+    print(f'\nGuess one letter at a time.\nYou have {incorrect_guesses_left} guesses to save Spaceman!')
     game_over = False
     while game_over == False:
+        # Ask the player to guess one letter per round and check that it is only one letter
         guess = 'False' # :)
         while len(guess) != 1:
-            guess = input('Please guess one letter: > ')
+            guess = input('\nGuess one letter: > ')
         # Check if the guessed letter is in the secret or not and give the player feedback
         if is_guess_in_word(guess, secret_word) == False:
-            print("You're out of luck")
+            print("Failed! Spaceman was counting on you!")
+            incorrect_guesses_left -= 1
+            print(f'Guesses left: {incorrect_guesses_left}')
+            if incorrect_guesses_left == 0:
+                print(f'Spaceman! No! Spaceman! Spaceman? Spaceman...')
+                return False
         else:
-            print('You got it!')
+            print('Success! There is still hope')
             letters_guessed += guess
         # show the guessed word so far
         print(get_guessed_word(secret_word, letters_guessed))
         # check if the game has been won or lost
         if is_word_guessed(secret_word, letters_guessed) == True:
+            print(f'Congratulations! You saved Spaceman!')
             game_over = True
 
 
 # These function calls that will start the game
 secret_word = load_word()
 spaceman(secret_word)
-print(secret_word)
+print(f'(The password was written on a sticky note under the keyboard: {secret_word})')
+print('\nGame Over')
 
