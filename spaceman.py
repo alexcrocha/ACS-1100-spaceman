@@ -125,7 +125,35 @@ def spaceman(secret_word):
             game_over = True
 
 
+def start_game():
+    """
+    A function that starts the game of spaceman.
+
+    """
+    secret_word = load_word()
+    spaceman(secret_word)
+
+
+def play_again():
+    """
+    A function that checks if the player wants to play again.
+
+    Returns:
+        bool: True if the player choice is yes, False otherwise
+
+    """
+    player_choice = ""
+    while not re.match("^[yn]", player_choice):
+        player_choice = input("\nPlay again? (Y/N) > ").lower()
+    if player_choice == "y":
+        return True
+    return False
+
+
 # These function calls that will start the game
-secret_word = load_word()
-spaceman(secret_word)
-print("\nGame Over")
+
+running = True
+while running is True:
+    start_game()
+    running = play_again()
+    print("\nGame Over")
